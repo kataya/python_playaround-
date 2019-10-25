@@ -34,7 +34,7 @@ def split_citycode_cityname(wsname):
 def multi_run_batch_convert(args):
     '''
     batch_convertのwrapper:
-      複数の引数を実行処理に渡すために必用なラッパー
+      複数の引数を実行処理に渡すために必要なラッパー
     '''
     return batch_convert(*args)
 
@@ -44,8 +44,8 @@ def batch_convert(inws, outws):
       1) FGDBへの書込みは仕様で複数プロセスで書込みできないため
            1市区町村フォルダ下のシェープ ファイルを
            1市区町村のFGDB下のフィーチャ クラスに変換
-	  2) すべてのフィーチャ クラスを統合したとき識別しやすいように
-	       フォルダ名から市区町村コードと、自治体名を作成しフィールドに値を格納
+      2) すべてのフィーチャ クラスを統合したとき識別しやすいように
+           フォルダ名から市区町村コードと、自治体名を作成しフィールドに値を格納
     '''
     print(u"Convert: {0} ⇒ {1}\n".format(inws,outws))
     if not arcpy.Exists(outws):
@@ -84,7 +84,7 @@ def exec_batch_convert(infolder,outfolder):
     '''
     try:
         start=datetime.datetime.now()
-        print "-- Strat: Multiprocess_Forge_ShapefileToFeatureClass --:",start
+        print(u"-- Strat: Multiprocess_Forge_ShapefileToFeatureClass --:{0}".format(start))
         cpu_cnt=multiprocessing.cpu_count()
         arcpy.env.workspace = infolder
         inwss = arcpy.ListWorkspaces("*","Folder")
@@ -128,15 +128,15 @@ def exec_batch_convert(infolder,outfolder):
         #    arcpy.Delete_management(outws)
         
         fin=datetime.datetime.now()
-        print "-- Finish: Multiprocess_Forge_ShapefileToFeatureClass --:",fin
-        print "     Elapsed time:", fin-start
+        print(u"-- Finish: Multiprocess_Forge_ShapefileToFeatureClass --:{0}".format(fin))
+        print(u"     Elapsed time:{0}".format(fin-start))
     except:
-        print traceback.format_exc("{0}".format(sys.exc_info()[2]))
+        print(u"Exception:{0}".format(sys.exc_info()[2]))
 
 def setup_batch_convert():
     '''
     コマンドプロンプトからの実行パラメータを設定の場合：
-      市区町村別のシェープ ファイルが入った都道府県フォルダ :infolder
+      市区町村別のシェープファイルが入った都道府県フォルダ :infolder
       例）
         |-02青森県2019
             |-02201青森市2019
@@ -156,10 +156,10 @@ def setup_batch_convert():
             |-02203八戸市2019
             |-02204黒石市2019		
             ･････
-            |-02青森県2019_filegdb.gdb # 市区町村別のフィーチャ クラスをマージしたフィーチャ クラスを格納するファイル ジオデータベース
+            |-02青森県2019_filegdb.gdb # 市区町村別のフィーチャクラスをマージしたフィーチャクラスを格納するファイル ジオデータベース
             |   forge	
     '''
-    infolder=ur"F:\Temp\農地の筆ポリゴン\02青森県2019" #市区町村別のシェープ ファイルが入った都道府県フォルダ（平面直角座標系ごと）
+    infolder=ur"F:\Temp\農地の筆ポリゴン\02青森県2019" #市区町村別のシェープファイルが入った都道府県フォルダ（平面直角座標系ごと）
     outfolder=ur"F:\Temp\農地の筆ポリゴン\02青森県2019_filegdb" #市区町村別のファイル ジオデータベースの作成先フォルダ
     exec_batch_convert(infolder,outfolder)
 
